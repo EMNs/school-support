@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Sinónimos Divertidos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-sky-50 min-h-screen text-slate-800 font-sans p-4 sm:p-8">
+    <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border-4 border-amber-300">
+        <!-- Header -->
+        <div class="bg-amber-400 p-6 text-center text-white">
+            <h1 class="text-3xl font-extrabold drop-shadow-md"> ¡Aventura de Sinónimos! </h1>
+            <p class="text-amber-900 font-medium mt-1">Aprende palabras nuevas jugando y descubriendo tesoros</p>
+        </div>
+
+        <!-- Content Area -->
+        <div class="p-6 sm:p-10">
+            <!-- Vocabulary Reference Card -->
+            <section class="mb-10">
+                <h2 class="text-xl font-bold text-sky-700 mb-4 flex items-center gap-2">
+                    <span>📚</span> Palabras Mágicas y sus Parejas
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="bg-sky-50 border border-sky-200 p-3 rounded-xl flex justify-between items-center">
+                        <span class="font-bold text-sky-900">inquieto</span>
+                        <span class="text-sky-600 font-semibold">revoltoso</span>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl flex justify-between items-center">
+                        <span class="font-bold text-amber-900">tímido</span>
+                        <span class="text-amber-600 font-semibold">reservado</span>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex justify-between items-center">
+                        <span class="font-bold text-emerald-900">distraído</span>
+                        <span class="text-emerald-600 font-semibold">despistado</span>
+                    </div>
+                    <div class="bg-purple-50 border border-purple-200 p-3 rounded-xl flex justify-between items-center">
+                        <span class="font-bold text-purple-900">camino</span>
+                        <span class="text-purple-600 font-semibold">sendero</span>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-200 p-3 rounded-xl flex justify-between items-center">
+                        <span class="font-bold text-rose-900">cabello</span>
+                        <span class="text-rose-600 font-semibold">pelo</span>
+                    </div>
+                    <div class="bg-indigo-50 border border-indigo-200 p-3 rounded-xl flex justify-between items-center">
+                        <span class="font-bold text-indigo-900">aula</span>
+                        <span class="text-indigo-600 font-semibold">clase</span>
+                    </div>
+                    <div class="bg-teal-50 border border-teal-200 p-3 rounded-xl flex justify-between items-center">
+                        <span class="font-bold text-teal-900">estropear</span>
+                        <span class="text-teal-600 font-semibold">dañar</span>
+                    </div>
+                    <div class="bg-orange-50 border border-orange-200 p-3 rounded-xl flex justify-between items-center">
+                        <span class="font-bold text-orange-900">extraviar</span>
+                        <span class="text-orange-600 font-semibold">perder</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Interactive Quiz Section -->
+            <section class="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-6">
+                <h2 class="text-xl font-bold text-slate-700 mb-4 text-center">🧠 ¡Pon a prueba tu memoria!</h2>
+                
+                <div id="quiz-container">
+                    <div id="question-box" class="mb-6">
+                        <p id="question-text" class="text-lg font-semibold text-center mb-4 text-slate-700"></p>
+                        <div id="options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-6">
+                        <span id="score-counter" class="text-sm font-bold text-slate-500">Puntuación: 0 / 8</span>
+                        <button id="next-btn" onclick="nextQuestion()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-6 py-2 rounded-xl transition shadow-md hidden">Siguiente Pregunta</button>
+                    </div>
+                </div>
+
+                <div id="completion-box" class="text-center hidden py-8">
+                    <h3 class="text-2xl font-bold text-amber-500 mb-2">🎉 ¡Excelente Trabajo!</h3>
+                    <p class="text-slate-600 mb-6">Has completado todos los ejercicios con éxito. ¡Eres un campeón de las palabras!</p>
+                    <button onclick="restartQuiz()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-6 py-3 rounded-xl transition shadow-md">Volver a Jugar</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "¿Cuál es el sinónimo de CAMINO?",
+                options: ["Sendero", "Aula", "Cabello", "Estropear"],
+                correct: 0,
+                hint: "Es por donde caminamos en el bosque o la montaña."
+            },
+            {
+                q: "Si alguien es muy DISTRAÍDO, también podemos decir que está...",
+                options: ["Tímido", "Despistado", "Revoltoso", "Inquieto"],
+                correct: 1,
+                hint: "Es cuando olvidas dónde pusiste las cosas por andar pensando en otra cosa."
+            },
+            {
+                q: "¿Qué palabra significa lo mismo que CABELLO?",
+                options: ["Clase", "Dañar", "Pelo", "Perder"],
+                correct: 2,
+                hint: "Lo tenemos en la cabeza y lo podemos peinar."
+            },
+            {
+                q: "El sinónimo de ESTROPEAR es...",
+                options: ["Extraviar", "Dañar", "Camino", "Tímido"],
+                correct: 1,
+                hint: "Ocurre cuando un juguete se rompe o deja de funcionar."
+            },
+            {
+                q: "¿Cómo se le llama también a un AULA?",
+                options: ["Pelo", "Sendero", "Clase", "Despistado"],
+                correct: 2,
+                hint: "Es la habitación de la escuela donde estudias con tus amigos."
+            },
+            {
+                q: "Un niño que no para quieto y es muy travieso es...",
+                options: ["Tímido", "Revoltoso", "Extraviado", "Dañado"],
+                correct: 1,
+                hint: "Empieza por 'r' y le encanta correr y saltar."
+            },
+            {
+                q: "¿Qué significa EXTRAVIAR?",
+                options: ["Encontrar", "Perder", "Estropear", "Enseñar"],
+                correct: 1,
+                hint: "Es cuando buscas tu lápiz favorito por todas partes y no lo encuentras."
+            },
+            {
+                q: "Si alguien es muy reservado y le cuesta hablar con gente nueva, es...",
+                options: ["Tímido", "Distraído", "Inquieto", "Revoltoso"],
+                correct: 0,
+                hint: "A veces se pone colorado cuando le hablan."
+            }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            answered = false;
+            document.getElementById('next-btn').classList.add('hidden');
+            const qData = questions[currentIdx];
+            document.getElementById('question-text').innerText = `${currentIdx + 1}. ${qData.q}`;
+            
+            const optionsGrid = document.getElementById('options-grid');
+            optionsGrid.innerHTML = '';
+
+            qData.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "bg-white border-2 border-slate-200 hover:border-sky-400 p-4 rounded-xl font-medium text-slate-700 transition shadow-sm text-left flex justify-between items-center";
+                btn.innerHTML = `<span>${opt}</span>`;
+                btn.onclick = () => selectOption(index, btn);
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedIndex, btnElement) {
+            if (answered) return;
+            answered = true;
+
+            const qData = questions[currentIdx];
+            const buttons = document.getElementById('options-grid').children;
+
+            if (selectedIndex === qData.correct) {
+                btnElement.classList.remove('border-slate-200', 'bg-white');
+                btnElement.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+                score++;
+                document.getElementById('score-counter').innerText = `Puntuación: ${score} / ${questions.length}`;
+            } else {
+                btnElement.classList.remove('border-slate-200', 'bg-white');
+                btnElement.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                
+                // Highlight correct
+                buttons[qData.correct].classList.remove('border-slate-200', 'bg-white');
+                buttons[qData.correct].classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+            }
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentIdx++;
+            if (currentIdx < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('quiz-container').classList.add('hidden');
+                document.getElementById('completion-box').classList.remove('hidden');
+            }
+        }
+
+        function restartQuiz() {
+            currentIdx = 0;
+            score = 0;
+            document.getElementById('score-counter').innerText = `Puntuación: 0 / ${questions.length}`;
+            document.getElementById('completion-box').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        // Initialize
+        loadQuestion();
+    </script>
+</body>
+</html>
+```eof
+
+### Suggestions for additional offline activities:
+1. **El juego de las mímica:** Pídele al niño que actúe palabras como *tímido* (escondiendo la cara) o *inquieto* (saltando sin parar) mientras tú adivinas el sinónimo.
+2. **Parejas con tarjetas (Memory):** Escribe cada palabra en una tarjeta y su sinónimo en otra (por ejemplo: *camino* en una y *sendero* en otra). Colócalas boca abajo para jugar a encontrar las parejas.
+
+¡Mucho éxito en el aprendizaje con el peque!

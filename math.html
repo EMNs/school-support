@@ -9,25 +9,37 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
             color: #333;
-            max-width: 800px;
+            max-width: 850px;
             margin: 20px auto;
             padding: 20px;
         }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        h1 { color: #2c3e50; margin: 0; }
+        .back-btn {
+            text-decoration: none;
+            background: #e74c3c;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
         }
         .section {
             background: #fff;
             padding: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
         }
         h2 {
             color: #3498db;
             border-bottom: 2px solid #ecf0f1;
             padding-bottom: 8px;
+            margin-top: 0;
         }
         .q-row {
             margin: 12px 0;
@@ -35,113 +47,146 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            font-size: 16px;
         }
         input[type="text"] {
             padding: 6px 10px;
             font-size: 16px;
-            border: 1px solid #ccc;
+            border: 2px solid #ccc;
             border-radius: 4px;
-            width: 150px;
+            outline: none;
+            transition: all 0.2s ease;
         }
-        .short-input {
-            width: 60px !important;
-            text-align: center;
-        }
-        button {
+        .short-input { width: 60px; text-align: center; }
+        .medium-input { width: 140px; }
+        .long-input { width: 280px; }
+        
+        button.submit-btn {
             display: block;
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background-color: #2ecc71;
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 18px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
             cursor: pointer;
             margin-top: 20px;
         }
-        button:hover {
-            background-color: #27ae60;
-        }
+        button.submit-btn:hover { background-color: #27ae60; }
+        
+        /* Feedback Styling */
         .correct { border-color: #2ecc71 !important; background-color: #e8f8f5; }
         .incorrect { border-color: #e74c3c !important; background-color: #fadbd8; }
-        #score {
-            font-size: 20px;
+        #score-board {
+            font-size: 22px;
             font-weight: bold;
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <h1>Math Practice Sheet</h1>
+    <div class="header">
+        <h1>Math Practice</h1>
+        <a href="index.html" class="back-btn">← Home</a>
+    </div>
 
     <!-- 1. Compare Numbers -->
     <div class="section">
         <h2>1. Compare the numbers (&lt;, &gt;, =)</h2>
-        <div class="q-row">1) 456,782 <input type="text" class="short-input" data-ans=">"> 456,728</div>
-        <div class="q-row">2) 90,105 <input type="text" class="short-input" data-ans="<"> 91,005</div>
-        <div class="q-row">3) 700,009 <input type="text" class="short-input" data-ans=">"> 699,999</div>
-        <div class="q-row">4) 305,640 <input type="text" class="short-input" data-ans="<"> 350,640</div>
-        <div class="q-row">5) 82,450 <input type="text" class="short-input" data-ans=">"> 82,405</div>
-        <div class="q-row">6) 999,999 <input type="text" class="short-input" data-ans="<"> 1,000,000</div>
-        <div class="q-row">7) 123,456 <input type="text" class="short-input" data-ans="<"> 123,546</div>
-        <div class="q-row">8) 508,012 <input type="text" class="short-input" data-ans="<"> 508,021</div>
-        <div class="q-row">9) 674,890 <input type="text" class="short-input" data-ans="="> 674,890</div>
-        <div class="q-row">10) 800,000 <input type="text" class="short-input" data-ans=">"> 799,999</div>
+        <div class="q-row">a) 456,782 <input type="text" class="short-input" data-ans=">"> 456,728</div>
+        <div class="q-row">b) 90,105 <input type="text" class="short-input" data-ans="<"> 91,005</div>
+        <div class="q-row">c) 700,009 <input type="text" class="short-input" data-ans=">"> 699,999</div>
+        <div class="q-row">d) 305,640 <input type="text" class="short-input" data-ans="<"> 350,640</div>
+        <div class="q-row">e) 82,450 <input type="text" class="short-input" data-ans=">"> 82,405</div>
+        <div class="q-row">f) 999,999 <input type="text" class="short-input" data-ans="<"> 1,000,000</div>
+        <div class="q-row">g) 123,456 <input type="text" class="short-input" data-ans="<"> 123,546</div>
+        <div class="q-row">h) 508,012 <input type="text" class="short-input" data-ans="<"> 508,021</div>
+        <div class="q-row">i) 674,890 <input type="text" class="short-input" data-ans="="> 674,890</div>
+        <div class="q-row">j) 800,000 <input type="text" class="short-input" data-ans=">"> 799,999</div>
+    </div>
+
+    <!-- 5. Ordinal Numbers -->
+    <div class="section">
+        <h2>2. Ordinal Numbers (in words)</h2>
+        <div class="q-row">a) 1st: <input type="text" class="long-input" data-ans="first"></div>
+        <div class="q-row">b) 12th: <input type="text" class="long-input" data-ans="twelfth"></div>
+        <div class="q-row">c) 23rd: <input type="text" class="long-input" data-ans="twenty-third|twenty third"></div>
+        <div class="q-row">d) 5th: <input type="text" class="long-input" data-ans="fifth"></div>
+        <div class="q-row">e) 11th: <input type="text" class="long-input" data-ans="eleventh"></div>
+        <div class="q-row">f) 20th: <input type="text" class="long-input" data-ans="twentieth"></div>
+    </div>
+
+    <!-- 6. Roman Numerals -->
+    <div class="section">
+        <h2>3. Roman Numerals</h2>
+        <div class="q-row">a) 14 in Roman: <input type="text" class="medium-input" data-ans="xiv"></div>
+        <div class="q-row">b) 29 in Roman: <input type="text" class="medium-input" data-ans="xxix"></div>
+        <div class="q-row">c) 48 in Roman: <input type="text" class="medium-input" data-ans="xlviii"></div>
+        <div class="q-row">d) XIX in figures: <input type="text" class="medium-input" data-ans="19"></div>
+        <div class="q-row">e) XLIV in figures: <input type="text" class="medium-input" data-ans="44"></div>
+        <div class="q-row">f) LXVIII in figures: <input type="text" class="medium-input" data-ans="68"></div>
+        <div class="q-row">g) XC in figures: <input type="text" class="medium-input" data-ans="90"></div>
     </div>
 
     <!-- 7. Combined Operations -->
     <div class="section">
-        <h2>2. Combined Operations</h2>
-        <div class="q-row">1) 8 + 4 × 6 = <input type="text" class="short-input" data-ans="32"></div>
-        <div class="q-row">2) (8 + 4) × 6 = <input type="text" class="short-input" data-ans="72"></div>
-        <div class="q-row">3) 45 - 5 × 7 = <input type="text" class="short-input" data-ans="10"></div>
-        <div class="q-row">4) 36 ÷ 4 + 9 = <input type="text" class="short-input" data-ans="18"></div>
-        <div class="q-row">5) 7 × (15 - 9) = <input type="text" class="short-input" data-ans="42"></div>
-        <div class="q-row">6) 64 ÷ 8 × 3 = <input type="text" class="short-input" data-ans="24"></div>
-        <div class="q-row">7) 100 - (24 + 16) ÷ 5 = <input type="text" class="short-input" data-ans="92"></div>
-        <div class="q-row">8) 6 × 7 + 18 ÷ 3 = <input type="text" class="short-input" data-ans="48"></div>
-        <div class="q-row">9) 10 + 5 × 4 = <input type="text" class="short-input" data-ans="30"></div>
-        <div class="q-row">10) (10 + 5) × 4 = <input type="text" class="short-input" data-ans="60"></div>
+        <h2>4. Combined Operations</h2>
+        <div class="q-row">a) 8 + 4 × 6 = <input type="text" class="short-input" data-ans="32"></div>
+        <div class="q-row">b) (8 + 4) × 6 = <input type="text" class="short-input" data-ans="72"></div>
+        <div class="q-row">c) 45 - 5 × 7 = <input type="text" class="short-input" data-ans="10"></div>
+        <div class="q-row">d) 36 ÷ 4 + 9 = <input type="text" class="short-input" data-ans="18"></div>
+        <div class="q-row">e) 7 × (15 - 9) = <input type="text" class="short-input" data-ans="42"></div>
+        <div class="q-row">f) 64 ÷ 8 × 3 = <input type="text" class="short-input" data-ans="24"></div>
+        <div class="q-row">g) 100 - (24 + 16) ÷ 5 = <input type="text" class="short-input" data-ans="92"></div>
+        <div class="q-row">h) 6 × 7 + 18 ÷ 3 = <input type="text" class="short-input" data-ans="48"></div>
     </div>
 
     <!-- 8. Multiples and Divisibility -->
     <div class="section">
-        <h2>3. Multiples and Divisibility Rules (Yes/No)</h2>
-        <div class="q-row">1) Is 246 a multiple of 2? <input type="text" class="short-input" data-ans="yes"></div>
-        <div class="q-row">2) Is 735 a multiple of 5? <input type="text" class="short-input" data-ans="yes"></div>
-        <div class="q-row">3) Is 918 a multiple of 3? <input type="text" class="short-input" data-ans="yes"></div>
-        <div class="q-row">4) Is 1,024 a multiple of 10? <input type="text" class="short-input" data-ans="no"></div>
-        <div class="q-row">5) Is 4,125 a multiple of 9? <input type="text" class="short-input" data-ans="no"></div>
-        <div class="q-row">6) Is 972 a multiple of 6? <input type="text" class="short-input" data-ans="yes"></div>
-        <div class="q-row">7) Is 514 a multiple of 2? <input type="text" class="short-input" data-ans="yes"></div>
-        <div class="q-row">8) Is 890 a multiple of 5? <input type="text" class="short-input" data-ans="yes"></div>
-        <div class="q-row">9) Is 413 a multiple of 3? <input type="text" class="short-input" data-ans="no"></div>
-        <div class="q-row">10) Is 3,500 a multiple of 10? <input type="text" class="short-input" data-ans="yes"></div>
+        <h2>5. Multiples and Divisibility Rules (yes/no)</h2>
+        <div class="q-row">a) Is 246 a multiple of 2? <input type="text" class="short-input" data-ans="yes"></div>
+        <div class="q-row">b) Is 735 a multiple of 5? <input type="text" class="short-input" data-ans="yes"></div>
+        <div class="q-row">c) Is 918 a multiple of 3? <input type="text" class="short-input" data-ans="yes"></div>
+        <div class="q-row">d) Is 1,024 a multiple of 10? <input type="text" class="short-input" data-ans="no"></div>
+        <div class="q-row">e) Is 4,125 a multiple of 9? <input type="text" class="short-input" data-ans="no"></div>
+        <div class="q-row">f) Is 972 a multiple of 6? <input type="text" class="short-input" data-ans="yes"></div>
     </div>
 
-    <button onclick="checkAnswers()">Check Answers</button>
-    <div id="score"></div>
+    <button class="submit-btn" onclick="checkAnswers()">Check Answers</button>
+    <div id="score-board"></div>
 
     <script>
         function checkAnswers() {
-            let inputs = document.querySelectorAll('input');
+            const inputs = document.querySelectorAll('input[data-ans]');
             let correctCount = 0;
 
             inputs.forEach(input => {
-                let userAns = input.value.trim().toLowerCase();
-                let expectedAns = input.getAttribute('data-ans').trim().toLowerCase();
+                const userAns = input.value.trim().toLowerCase().replace(/,/g, '');
+                const validAnswers = input.getAttribute('data-ans').toLowerCase().split('|');
 
-                if (userAns === expectedAns) {
-                    input.className = input.className.replace('incorrect', '') + ' correct';
+                if (userAns !== '' && validAnswers.includes(userAns)) {
+                    input.classList.remove('incorrect');
+                    input.classList.add('correct');
                     correctCount++;
                 } else {
-                    input.className = input.className.replace('correct', '') + ' incorrect';
+                    input.classList.remove('correct');
+                    input.classList.add('incorrect');
                 }
             });
 
-            document.getElementById('score').innerText = `Your Score: ${correctCount} / ${inputs.length}`;
+            const scoreBoard = document.getElementById('score-board');
+            scoreBoard.style.display = 'block';
+            scoreBoard.innerHTML = `Score: ${correctCount} / ${inputs.length} (${Math.round((correctCount / inputs.length) * 100)}%)`;
+            scoreBoard.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>

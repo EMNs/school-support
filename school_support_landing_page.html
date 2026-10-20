@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Support - Practice & Learn!</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fun-yellow': '#FFDE59',
+                        'fun-orange': '#FF914D',
+                        'fun-blue': '#38B6FF',
+                        'fun-purple': '#8C52FF',
+                        'fun-green': '#00C2CB',
+                        'fun-pink': '#FF66C4'
+                    },
+                    keyframes: {
+                        bounceGentle: {
+                            '0%, 100%': { transform: 'translateY(-3%)' },
+                            '50%': { transform: 'translateY(0)' },
+                        }
+                    },
+                    animation: {
+                        'bounce-slow': 'bounceGentle 3s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #fef3c7 50%, #fbcfe8 100%);
+            min-height: 100vh;
+        }
+
+        .font-heading {
+            font-family: 'Fredoka', cursive;
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 flex flex-col justify-between items-center min-h-screen">
+
+    <div class="w-full max-w-5xl mx-auto">
+        <!-- Header Banner -->
+        <header class="text-center my-6 md:my-10 relative">
+            <div class="inline-block bg-white px-8 py-6 rounded-3xl card-shadow border-4 border-fun-yellow animate-bounce-slow">
+                <span class="text-4xl md:text-5xl block mb-2">🎒✏️🌟</span>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-slate-800 font-heading tracking-wide">
+                    School Support
+                </h1>
+                <p class="text-base md:text-xl font-bold text-fun-purple mt-2">
+                    Fun Practice & Learning Zone!
+                </p>
+            </div>
+        </header>
+
+        <!-- Subject Selection Cards Grid -->
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 my-8">
+
+            <!-- Active Subject: Spanish -->
+            <a href="spanish.html" class="block group">
+                <div class="bg-white rounded-3xl p-6 border-4 border-fun-orange card-shadow card-hover relative overflow-hidden h-full flex flex-col justify-between">
+                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-fun-orange opacity-10 rounded-full"></div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-5xl bg-amber-100 p-3 rounded-2xl">🇪🇸</span>
+                            <span class="bg-fun-orange text-white text-xs font-black uppercase px-3 py-1 rounded-full tracking-wider">Ready!</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800 font-heading group-hover:text-fun-orange transition-colors">
+                            Spanish Practice
+                        </h2>
+                        <p class="text-slate-600 text-sm mt-2 font-semibold leading-relaxed">
+                            Vocabulary, synonyms, and language games to boost your Spanish skills.
+                        </p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between font-extrabold text-fun-orange group-hover:translate-x-1 transition-transform">
+                        <span>Start Learning</span>
+                        <span class="text-xl">➔</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Active Subject: Math -->
+            <a href="math.html" class="block group">
+                <div class="bg-white rounded-3xl p-6 border-4 border-fun-blue card-shadow card-hover relative overflow-hidden h-full flex flex-col justify-between">
+                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-fun-blue opacity-10 rounded-full"></div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-5xl bg-sky-100 p-3 rounded-2xl">🔢</span>
+                            <span class="bg-fun-blue text-white text-xs font-black uppercase px-3 py-1 rounded-full tracking-wider">Ready!</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800 font-heading group-hover:text-fun-blue transition-colors">
+                            Math Practice
+                        </h2>
+                        <p class="text-slate-600 text-sm mt-2 font-semibold leading-relaxed">
+                            Place values, ordering numbers, Roman numerals, divisibility, and combined operations.
+                        </p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between font-extrabold text-fun-blue group-hover:translate-x-1 transition-transform">
+                        <span>Start Solving</span>
+                        <span class="text-xl">➔</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Placeholder: Science & Nature -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 border-4 border-slate-200 card-shadow relative overflow-hidden h-full flex flex-col justify-between opacity-75">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-5xl bg-teal-100 p-3 rounded-2xl grayscale opacity-70">🔬</span>
+                        <span class="bg-slate-300 text-slate-700 text-xs font-black uppercase px-3 py-1 rounded-full tracking-wider">Coming Soon</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-500 font-heading">
+                        Science & Nature
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-2 font-semibold leading-relaxed">
+                        Explore plants, animals, energy, and cool science experiments!
+                    </p>
+                </div>
+                <div class="mt-6 flex items-center justify-between font-bold text-slate-400 text-sm">
+                    <span>Locked</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- Placeholder: History & Geography -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 border-4 border-slate-200 card-shadow relative overflow-hidden h-full flex flex-col justify-between opacity-75">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-5xl bg-purple-100 p-3 rounded-2xl grayscale opacity-70">🌍</span>
+                        <span class="bg-slate-300 text-slate-700 text-xs font-black uppercase px-3 py-1 rounded-full tracking-wider">Coming Soon</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-500 font-heading">
+                        History & World
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-2 font-semibold leading-relaxed">
+                        Discover continents, maps, historical figures, and ancient worlds.
+                    </p>
+                </div>
+                <div class="mt-6 flex items-center justify-between font-bold text-slate-400 text-sm">
+                    <span>Locked</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+            <!-- Placeholder: English Vocabulary -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 border-4 border-slate-200 card-shadow relative overflow-hidden h-full flex flex-col justify-between opacity-75">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-5xl bg-pink-100 p-3 rounded-2xl grayscale opacity-70">📚</span>
+                        <span class="bg-slate-300 text-slate-700 text-xs font-black uppercase px-3 py-1 rounded-full tracking-wider">Coming Soon</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-500 font-heading">
+                        English & Reading
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-2 font-semibold leading-relaxed">
+                        Grammar, reading comprehension, spelling, and story creation.
+                    </p>
+                </div>
+                <div class="mt-6 flex items-center justify-between font-bold text-slate-400 text-sm">
+                    <span>Locked</span>
+                    <span>🔒</span>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-slate-500 font-bold text-sm">
+        <p>🌟 Ready to learn? Choose a subject above to get started!</p>
+    </footer>
+
+</body>
+</html>

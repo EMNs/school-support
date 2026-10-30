@@ -148,13 +148,25 @@
             font-size: 3rem;
             font-weight: bold;
             color: var(--primary);
-            margin: 1rem 0;
+            margin: 0.5rem 0;
         }
 
         .result-message {
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
             color: #4b5563;
+        }
+
+        /* Partying Whale Animation */
+        @keyframes bounce {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-12px) scale(1.05); }
+        }
+
+        #whale-celebration {
+            font-size: 4rem;
+            margin: 0.5rem 0;
+            animation: bounce 0.4s ease-in-out infinite alternate;
         }
     </style>
 </head>
@@ -190,6 +202,7 @@
         <!-- Result View -->
         <div id="result-screen" class="hidden">
             <h1>Round Complete!</h1>
+            <div id="whale-celebration" class="hidden">🐳🥳🎉</div>
             <p class="subtitle">Here is how you performed:</p>
             <div class="score-display" id="final-score">20/20</div>
             <p class="result-message" id="result-message">Great job! Perfect score!</p>
@@ -198,7 +211,7 @@
     </div>
 
     <script>
-        const TOTAL_QUESTIONS = 20; // Set to 20 questions per round
+        const TOTAL_QUESTIONS = 20; 
         let currentQuestionIndex = 0;
         let score = 0;
         let currentFactor1 = 0;
@@ -209,6 +222,7 @@
         const startScreen = document.getElementById('start-screen');
         const quizScreen = document.getElementById('quiz-screen');
         const resultScreen = document.getElementById('result-screen');
+        const whaleCelebration = document.getElementById('whale-celebration');
         
         const startBtn = document.getElementById('start-btn');
         const restartBtn = document.getElementById('restart-btn');
@@ -255,7 +269,6 @@
                 return;
             }
 
-            // Generate random numbers strictly between 3 and 9 (inclusive)
             currentFactor1 = getRandomNumber(3, 9);
             currentFactor2 = getRandomNumber(3, 9);
 
@@ -273,39 +286,30 @@
             e.preventDefault();
             if (waitingForNext) return;
 
-            const userAnswer = parseInt(answerInput.value.trim(), 10); // Fixed base 10
+            const userAnswer = parseInt(answerInput.value.trim(), 10);
             if (isNaN(userAnswer)) return;
 
             const correctAnswer = currentFactor1 * currentFactor2;
-            waitingForNext = true;
-            answerInput.disabled = true;
 
             if (userAnswer === correctAnswer) {
                 score++;
-                feedbackEl.textContent = 'Correct! 🎉';
-                feedbackEl.className = 'feedback correct';
+                currentScoreEl.textContent = `Score: ${score}`;
+                currentQuestionIndex++;
+                loadNextQuestion(); // Move instantly on correct answer
             } else {
-                feedbackEl.textContent = `Incorrect. The correct answer was ${correctAnswer}.`;
+                waitingForNext = true;
+                answerInput.disabled = true;
+                feedbackEl.textContent = `Incorrect! Correct answer was ${correctAnswer}.`;
                 feedbackEl.className = 'feedback incorrect';
-            }
+                submitBtn.textContent = 'Reviewing...';
 
-            currentScoreEl.textContent = `Score: ${score}`;
-            currentQuestionIndex++;
+                currentScoreEl.textContent = `Score: ${score}`;
+                currentQuestionIndex++;
 
-            if (currentQuestionIndex < TOTAL_QUESTIONS) {
-                submitBtn.textContent = 'Next Question';
+                // Pause for 2 seconds on incorrect answers so they can read the correct answer
                 setTimeout(() => {
-                    if (waitingForNext) {
-                        loadNextQuestion();
-                    }
-                }, 1500); 
-            } else {
-                submitBtn.textContent = 'View Results';
-                setTimeout(() => {
-                    if (waitingForNext) {
-                        showResults();
-                    }
-                }, 1500);
+                    loadNextQuestion();
+                }, 2000);
             }
         }
 
@@ -318,12 +322,16 @@
             let message = '';
             if (score === TOTAL_QUESTIONS) {
                 message = '🌟 Incredible! Perfect score! 🌟';
-            } else if (score >= TOTAL_QUESTIONS * 0.75) {
-                message = '👏 Great job! You know your tables well.';
-            } else if (score >= TOTAL_QUESTIONS * 0.5) {
-                message = '👍 Good effort! Keep practicing to improve.';
+                whaleCelebration.classList.remove('hidden');
             } else {
-                message = '💪 Keep practicing! You will get the hang of it.';
+                whaleCelebration.classList.add('hidden');
+                if (score >= TOTAL_QUESTIONS * 0.75) {
+                    message = '👏 Great job! You know your tables well.';
+                } else if (score >= TOTAL_QUESTIONS * 0.5) {
+                    message = '👍 Good effort! Keep practicing to improve.';
+                } else {
+                    message = '💪 Keep practicing! You will get the hang of it.';
+                }
             }
             resultMessageEl.textContent = message;
         }

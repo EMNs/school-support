@@ -198,7 +198,7 @@
     </div>
 
     <script>
-        const TOTAL_QUESTIONS = 10;
+        const TOTAL_QUESTIONS = 20;
         let currentQuestionIndex = 0;
         let score = 0;
         let currentFactor1 = 0;
@@ -256,8 +256,8 @@
             }
 
             // Generate random numbers between 2 and 9
-            currentFactor1 = getRandomNumber(2, 9);
-            currentFactor2 = getRandomNumber(2, 9);
+            currentFactor1 = getRandomNumber(3, 9);
+            currentFactor2 = getRandomNumber(3, 9);
 
             questionText.textContent = `${currentFactor1} × ${currentFactor2}`;
             questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${TOTAL_QUESTIONS}`;
@@ -273,7 +273,7 @@
             e.preventDefault();
             if (waitingForNext) return;
 
-            const userAnswer = parseInt(answerInput.value.trim(), 10);
+            const userAnswer = parseInt(answerInput.value.trim(), 20);
             if (isNaN(userAnswer)) return;
 
             const correctAnswer = currentFactor1 * currentFactor2;
@@ -317,11 +317,11 @@
             finalScoreEl.textContent = `${score} / ${TOTAL_QUESTIONS}`;
             
             let message = '';
-            if (score === 10) {
+            if (score === 20) {
                 message = '🌟 Incredible! Perfect score! 🌟';
-            } else if (score >= 7) {
+            } else if (score >= 15) {
                 message = '👏 Great job! You know your tables well.';
-            } else if (score >= 4) {
+            } else if (score >= 10) {
                 message = '👍 Good effort! Keep practicing to improve.';
             } else {
                 message = '💪 Keep practicing! You will get the hang of it.';

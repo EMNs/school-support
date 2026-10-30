@@ -3,106 +3,414 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Support Practice</title>
+    <title>School Support - Dashboard</title>
     <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            min-height: 100vh;
         }
-        h1 { color: #2c3e50; margin-bottom: 5px; }
-        p.subtitle { color: #7f8c8d; margin-bottom: 25px; }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             width: 100%;
-            max-width: 800px;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            text-decoration: none;
-            color: #333;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            max-width: 480px;
             text-align: center;
+            box-sizing: border-box;
         }
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 12px rgba(0,0,0,0.1);
+
+        h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
         }
-        .icon { font-size: 36px; margin-bottom: 10px; }
-        .title { font-size: 18px; font-weight: bold; color: #2980b9; }
-        .desc { font-size: 13px; color: #7f8c8d; margin-top: 5px; }
-        .section-header {
+
+        p.subtitle {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Dashboard Menu Styles */
+        .module-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .module-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            text-align: left;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .module-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+        }
+
+        .module-info h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .module-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .module-action-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* Generic Buttons */
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
             width: 100%;
-            max-width: 800px;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            color: #34495e;
-            border-bottom: 2px solid #dcdde1;
-            padding-bottom: 5px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .back-nav {
+            text-align: left;
+            margin-bottom: 1rem;
+        }
+
+        .back-link {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Quiz Specific Styles */
+        .progress-bar {
+            background-color: #e5e7eb;
+            border-radius: 999px;
+            height: 8px;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: var(--primary);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .question-box {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            color: #111827;
+            letter-spacing: 2px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--primary);
+        }
+
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+
+        .feedback {
+            font-weight: 600;
+            font-size: 0.95rem;
+            height: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feedback.correct { color: var(--success); }
+        .feedback.incorrect { color: var(--error); }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .result-message {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
         }
     </style>
 </head>
 <body>
 
-    <h1>School Support Dashboard 🎓</h1>
-    <p class="subtitle">Choose an exercise to practice!</p>
+    <div class="container">
+        <!-- Main Hub / Dashboard View -->
+        <div id="dashboard-view">
+            <h1>School Support Portal</h1>
+            <p class="subtitle">Select a tool or activity to get started.</p>
+            
+            <div class="module-grid">
+                <div class="module-card" id="open-mult-btn">
+                    <div class="module-info">
+                        <h3>Multiplication Practice</h3>
+                        <p>Tables 2 to 9 • Sets of 10 questions</p>
+                    </div>
+                    <button class="module-action-btn">Play</button>
+                </div>
+                <!-- You can easily add more module cards here in the future -->
+            </div>
+        </div>
 
-    <!-- Languages Section -->
-    <div class="section-header"><h2>Languages</h2></div>
-    <div class="grid-container">
-        <a href="spanish.html" class="card">
-            <div class="icon">🇪🇸</div>
-            <div class="title">Spanish Practice</div>
-            <div class="desc">Vocabulary and synonym matching</div>
-        </a>
+        <!-- Multiplication Quiz View -->
+        <div id="quiz-view" class="hidden">
+            <div class="back-nav">
+                <button class="back-link" id="back-to-dashboard">← Back to Menu</button>
+            </div>
+            
+            <div class="stats">
+                <span id="question-counter">Question 1 of 10</span>
+                <span id="current-score">Score: 0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <div class="question-box" id="question-text">2 × 3</div>
+            
+            <form id="answer-form">
+                <input type="number" id="answer-input" autocomplete="off" autofocus required placeholder="?">
+                <div class="feedback" id="feedback"></div>
+                <button type="submit" class="btn" id="submit-btn">Submit Answer</button>
+            </form>
+        </div>
+
+        <!-- Multiplication Result View -->
+        <div id="result-view" class="hidden">
+            <h1>Round Complete!</h1>
+            <p class="subtitle">Here is how you performed:</p>
+            <div class="score-display" id="final-score">10/10</div>
+            <p class="result-message" id="result-message">Great job! Perfect score!</p>
+            <button class="btn" id="play-again-btn">Play Again</button>
+            <button class="btn" id="menu-btn" style="background-color: #6b7280; margin-top: 0.75rem;">Main Menu</button>
+        </div>
     </div>
 
-    <!-- Math Exercises Section -->
-    <div class="section-header"><h2>Math Exercises</h2></div>
-    <div class="grid-container">
-        <a href="math-compare.html" class="card">
-            <div class="icon">⚖️</div>
-            <div class="title">Comparing Numbers</div>
-            <div class="desc">Use &lt;, &gt;, or =</div>
-        </a>
-        <a href="math-order.html" class="card">
-            <div class="icon">🔢</div>
-            <div class="title">Ordering Numbers</div>
-            <div class="desc">Ascending and descending order</div>
-        </a>
-        <a href="math-words.html" class="card">
-            <div class="icon">✍️</div>
-            <div class="title">Words & Digits</div>
-            <div class="desc">Write numbers in words and figures</div>
-        </a>
-        <a href="math-roman.html" class="card">
-            <div class="icon">🏛️</div>
-            <div class="title">Roman & Ordinals</div>
-            <div class="desc">Roman numerals and ordinal numbers</div>
-        </a>
-        <a href="math-operations.html" class="card">
-            <div class="icon">➕</div>
-            <div class="title">Combined Operations</div>
-            <div class="desc">Order of operations & calculations</div>
-        </a>
-        <a href="math-divisibility.html" class="card">
-            <div class="icon">🧪</div>
-            <div class="title">Divisibility Rules</div>
-            <div class="desc">Multiples and divisibility checks</div>
-        </a>
-    </div>
+    <script>
+        // View Elements
+        const dashboardView = document.getElementById('dashboard-view');
+        const quizView = document.getElementById('quiz-view');
+        const resultView = document.getElementById('result-view');
 
+        // Navigation Triggers
+        const openMultBtn = document.getElementById('open-mult-btn');
+        const backToDashboard = document.getElementById('back-to-dashboard');
+        const menuBtn = document.getElementById('menu-btn');
+        const playAgainBtn = document.getElementById('play-again-btn');
+
+        // Quiz Logic Elements
+        const TOTAL_QUESTIONS = 10;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let currentFactor1 = 0;
+        let currentFactor2 = 0;
+        let waitingForNext = false;
+
+        const answerForm = document.getElementById('answer-form');
+        const answerInput = document.getElementById('answer-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const questionCounter = document.getElementById('question-counter');
+        const currentScoreEl = document.getElementById('current-score');
+        const progressFill = document.getElementById('progress-fill');
+        const questionText = document.getElementById('question-text');
+        const feedbackEl = document.getElementById('feedback');
+        const finalScoreEl = document.getElementById('final-score');
+        const resultMessageEl = document.getElementById('result-message');
+
+        // Event Listeners
+        openMultBtn.addEventListener('click', startQuiz);
+        backToDashboard.addEventListener('click', showDashboard);
+        menuBtn.addEventListener('click', showDashboard);
+        playAgainBtn.addEventListener('click', startQuiz);
+        answerForm.addEventListener('submit', handleFormSubmit);
+
+        function showDashboard() {
+            quizView.classList.add('hidden');
+            resultView.classList.add('hidden');
+            dashboardView.classList.remove('hidden');
+        }
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            dashboardView.classList.add('hidden');
+            resultView.classList.add('hidden');
+            quizView.classList.remove('hidden');
+            loadNextQuestion();
+        }
+
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function loadNextQuestion() {
+            waitingForNext = false;
+            feedbackEl.textContent = '';
+            feedbackEl.className = 'feedback';
+            answerInput.value = '';
+            answerInput.disabled = false;
+            submitBtn.textContent = 'Submit Answer';
+
+            if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+                showResults();
+                return;
+            }
+
+            // Tables 2 to 9
+            currentFactor1 = getRandomNumber(2, 9);
+            currentFactor2 = getRandomNumber(2, 9);
+
+            questionText.textContent = `${currentFactor1} × ${currentFactor2}`;
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${TOTAL_QUESTIONS}`;
+            currentScoreEl.textContent = `Score: ${score}`;
+            
+            const progressPercentage = (currentQuestionIndex / TOTAL_QUESTIONS) * 100;
+            progressFill.style.width = `${progressPercentage}%`;
+
+            answerInput.focus();
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            if (waitingForNext) return;
+
+            const userAnswer = parseInt(answerInput.value.trim(), 10);
+            if (isNaN(userAnswer)) return;
+
+            const correctAnswer = currentFactor1 * currentFactor2;
+            waitingForNext = true;
+            answerInput.disabled = true;
+
+            if (userAnswer === correctAnswer) {
+                score++;
+                feedbackEl.textContent = 'Correct! 🎉';
+                feedbackEl.className = 'feedback correct';
+            } else {
+                feedbackEl.textContent = `Incorrect. The correct answer was ${correctAnswer}.`;
+                feedbackEl.className = 'feedback incorrect';
+            }
+
+            currentScoreEl.textContent = `Score: ${score}`;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < TOTAL_QUESTIONS) {
+                submitBtn.textContent = 'Next Question';
+                setTimeout(() => {
+                    if (waitingForNext) loadNextQuestion();
+                }, 1500);
+            } else {
+                submitBtn.textContent = 'View Results';
+                setTimeout(() => {
+                    if (waitingForNext) showResults();
+                }, 1500);
+            }
+        }
+
+        function showResults() {
+            quizView.classList.add('hidden');
+            resultView.classList.remove('hidden');
+            
+            finalScoreEl.textContent = `${score} / ${TOTAL_QUESTIONS}`;
+            
+            let message = '';
+            if (score === 10) {
+                message = '🌟 Incredible! Perfect score! 🌟';
+            } else if (score >= 7) {
+                message = '👏 Great job! You know your tables well.';
+            } else if (score >= 4) {
+                message = '👍 Good effort! Keep practicing to improve.';
+            } else {
+                message = '💪 Keep practicing! You will get the hang of it.';
+            }
+            resultMessageEl.textContent = message;
+        }
+    </script>
 </body>
 </html>

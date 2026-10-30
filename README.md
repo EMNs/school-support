@@ -1,15 +1,26 @@
-# Spanish Learning Support 🇪🇸 for Primary 3 
+# 🌟 School Support Portal
 
-A collection of interactive web-based games, flashcards, and lightweight tools designed to help children learn and practice Spanish vocabulary, synonyms, and grammar in a fun, engaging way.
+A collection of fun, lightweight, interactive web-based learning and practice modules designed to help students master math, language skills, and more! 
 
-## 🎯 Purpose
-Learning a new language is much easier when it feels like play! This repository serves as a centralized hub for custom-built, interactive micro-applications and educational activities. Each tool is built as a self-contained web page (HTML/CSS/JS) so it can be played instantly on phones, tablets, or computers without any complex installation.
+Built with pure HTML, CSS, and JavaScript, everything runs completely in the browser with no installation required.
 
-## 📂 Current Materials
+---
 
-* **Synonyms Adventure Game (`index.html`)**: An interactive quiz designed to help children master common Spanish synonym pairs and their meanings (such as *inquieto / revoltoso*, *camino / sendero*, and *aula / clase*).
+## 🚀 Available Modules
 
-## 🚀 How to Use / Play Locally
-1. Clone this repository to your computer:
+*   ✖️ **Multiplication Practice** (`multiplication_tables.html`) – Practice random multiplication tables from 2 to 9 in sets of 10 questions with immediate scoring and feedback.
+*   ⚖️ **Math Compare** (`math-compare.html`) – Practice comparing numbers and values.
+*   ➗ **Divisibility Rules** (`math-divisibility.html`) – Practice division concepts and factors.
+*   ➕ **Math Operations** (`math-operations.html`) – Practice addition, subtraction, and arithmetic operations.
+*   🔢 **Order of Operations** (`math-order.html`) – Practice PEMDAS and expression evaluation rules.
+*   🏛️ **Roman Numerals** (`math-roman.html`) – Convert and practice ancient Roman numbers.
+*   📖 **Math Word Problems** (`math-words.html`) – Solve story-based puzzles and problems.
+*   🇪🇸 **Spanish Practice** (`spanish.html`) – Practice Spanish vocabulary and words.
+
+---
+
+## 💡 How to Run Locally
+
+1. Clone the repository:
    ```bash
    git clone [https://github.com/EMNs/school-support.git](https://github.com/EMNs/school-support.git)

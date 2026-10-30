@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Practice (Tables 2-9)</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        p.subtitle {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Setup Screen */
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Quiz Screen */
+        .progress-bar {
+            background-color: #e5e7eb;
+            border-radius: 999px;
+            height: 8px;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: var(--primary);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .question-box {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            color: #111827;
+            letter-spacing: 2px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--primary);
+        }
+
+        /* Hide number input arrows */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+
+        .feedback {
+            font-weight: 600;
+            font-size: 0.95rem;
+            height: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+        }
+
+        .feedback.incorrect {
+            color: var(--error);
+        }
+
+        /* Results Screen */
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .result-message {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Start View -->
+        <div id="start-screen">
+            <h1>Multiplication Challenge</h1>
+            <p class="subtitle">Practice tables from 2 to 9 in rounds of 10 questions.</p>
+            <button class="btn" id="start-btn">Start Practice</button>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quiz-screen" class="hidden">
+            <div class="stats">
+                <span id="question-counter">Question 1 of 10</span>
+                <span id="current-score">Score: 0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <div class="question-box" id="question-text">2 × 3</div>
+            
+            <form id="answer-form">
+                <input type="number" id="answer-input" autocomplete="off" autofocus required placeholder="?">
+                <div class="feedback" id="feedback"></div>
+                <button type="submit" class="btn" id="submit-btn">Submit Answer</button>
+            </form>
+        </div>
+
+        <!-- Result View -->
+        <div id="result-screen" class="hidden">
+            <h1>Round Complete!</h1>
+            <p class="subtitle">Here is how you performed:</p>
+            <div class="score-display" id="final-score">10/10</div>
+            <p class="result-message" id="result-message">Great job! Perfect score!</p>
+            <button class="btn" id="restart-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const TOTAL_QUESTIONS = 10;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let currentFactor1 = 0;
+        let currentFactor2 = 0;
+        let waitingForNext = false;
+
+        // DOM Elements
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const answerForm = document.getElementById('answer-form');
+        const answerInput = document.getElementById('answer-input');
+        const submitBtn = document.getElementById('submit-btn');
+        
+        const questionCounter = document.getElementById('question-counter');
+        const currentScoreEl = document.getElementById('current-score');
+        const progressFill = document.getElementById('progress-fill');
+        const questionText = document.getElementById('question-text');
+        const feedbackEl = document.getElementById('feedback');
+        
+        const finalScoreEl = document.getElementById('final-score');
+        const resultMessageEl = document.getElementById('result-message');
+
+        startBtn.addEventListener('click', startQuiz);
+        restartBtn.addEventListener('click', startQuiz);
+        answerForm.addEventListener('submit', handleFormSubmit);
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            startScreen.classList.add('hidden');
+            resultScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            loadNextQuestion();
+        }
+
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function loadNextQuestion() {
+            waitingForNext = false;
+            feedbackEl.textContent = '';
+            feedbackEl.className = 'feedback';
+            answerInput.value = '';
+            answerInput.disabled = false;
+            submitBtn.textContent = 'Submit Answer';
+
+            if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+                showResults();
+                return;
+            }
+
+            // Generate random numbers between 2 and 9
+            currentFactor1 = getRandomNumber(2, 9);
+            currentFactor2 = getRandomNumber(2, 9);
+
+            questionText.textContent = `${currentFactor1} × ${currentFactor2}`;
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${TOTAL_QUESTIONS}`;
+            currentScoreEl.textContent = `Score: ${score}`;
+            
+            const progressPercentage = (currentQuestionIndex / TOTAL_QUESTIONS) * 100;
+            progressFill.style.width = `${progressPercentage}%`;
+
+            answerInput.focus();
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            if (waitingForNext) return;
+
+            const userAnswer = parseInt(answerInput.value.trim(), 10);
+            if (isNaN(userAnswer)) return;
+
+            const correctAnswer = currentFactor1 * currentFactor2;
+            waitingForNext = true;
+            answerInput.disabled = true;
+
+            if (userAnswer === correctAnswer) {
+                score++;
+                feedbackEl.textContent = 'Correct! 🎉';
+                feedbackEl.className = 'feedback correct';
+            } else {
+                feedbackEl.textContent = `Incorrect. The correct answer was ${correctAnswer}.`;
+                feedbackEl.className = 'feedback incorrect';
+            }
+
+            currentScoreEl.textContent = `Score: ${score}`;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < TOTAL_QUESTIONS) {
+                submitBtn.textContent = 'Next Question';
+                // Allow clicking submit or pressing enter to move forward quickly
+                setTimeout(() => {
+                    if (waitingForNext) {
+                        loadNextQuestion();
+                    }
+                }, 1500); // 1.5 second pause to read feedback
+            } else {
+                submitBtn.textContent = 'View Results';
+                setTimeout(() => {
+                    if (waitingForNext) {
+                        showResults();
+                    }
+                }, 1500);
+            }
+        }
+
+        function showResults() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            
+            finalScoreEl.textContent = `${score} / ${TOTAL_QUESTIONS}`;
+            
+            let message = '';
+            if (score === 10) {
+                message = '🌟 Incredible! Perfect score! 🌟';
+            } else if (score >= 7) {
+                message = '👏 Great job! You know your tables well.';
+            } else if (score >= 4) {
+                message = '👍 Good effort! Keep practicing to improve.';
+            } else {
+                message = '💪 Keep practicing! You will get the hang of it.';
+            }
+            resultMessageEl.textContent = message;
+        }
+    </script>
+</body>
+</html>

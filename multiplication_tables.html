@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiplication Practice (Tables 2-9)</title>
+    <title>Multiplication Practice (Tables 3-9)</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -164,21 +164,21 @@
         <!-- Start View -->
         <div id="start-screen">
             <h1>Multiplication Challenge</h1>
-            <p class="subtitle">Practice tables from 2 to 9 in rounds of 10 questions.</p>
+            <p class="subtitle">Practice tables from 3 to 9 in rounds of 20 questions.</p>
             <button class="btn" id="start-btn">Start Practice</button>
         </div>
 
         <!-- Quiz View -->
         <div id="quiz-screen" class="hidden">
             <div class="stats">
-                <span id="question-counter">Question 1 of 10</span>
+                <span id="question-counter">Question 1 of 20</span>
                 <span id="current-score">Score: 0</span>
             </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progress-fill"></div>
             </div>
             
-            <div class="question-box" id="question-text">2 × 3</div>
+            <div class="question-box" id="question-text">3 × 3</div>
             
             <form id="answer-form">
                 <input type="number" id="answer-input" autocomplete="off" autofocus required placeholder="?">
@@ -191,14 +191,14 @@
         <div id="result-screen" class="hidden">
             <h1>Round Complete!</h1>
             <p class="subtitle">Here is how you performed:</p>
-            <div class="score-display" id="final-score">10/10</div>
+            <div class="score-display" id="final-score">20/20</div>
             <p class="result-message" id="result-message">Great job! Perfect score!</p>
             <button class="btn" id="restart-btn">Play Again</button>
         </div>
     </div>
 
     <script>
-        const TOTAL_QUESTIONS = 20;
+        const TOTAL_QUESTIONS = 20; // Set to 20 questions per round
         let currentQuestionIndex = 0;
         let score = 0;
         let currentFactor1 = 0;
@@ -255,7 +255,7 @@
                 return;
             }
 
-            // Generate random numbers between 2 and 9
+            // Generate random numbers strictly between 3 and 9 (inclusive)
             currentFactor1 = getRandomNumber(3, 9);
             currentFactor2 = getRandomNumber(3, 9);
 
@@ -273,7 +273,7 @@
             e.preventDefault();
             if (waitingForNext) return;
 
-            const userAnswer = parseInt(answerInput.value.trim(), 20);
+            const userAnswer = parseInt(answerInput.value.trim(), 10); // Fixed base 10
             if (isNaN(userAnswer)) return;
 
             const correctAnswer = currentFactor1 * currentFactor2;
@@ -294,12 +294,11 @@
 
             if (currentQuestionIndex < TOTAL_QUESTIONS) {
                 submitBtn.textContent = 'Next Question';
-                // Allow clicking submit or pressing enter to move forward quickly
                 setTimeout(() => {
                     if (waitingForNext) {
                         loadNextQuestion();
                     }
-                }, 1500); // 1.5 second pause to read feedback
+                }, 1500); 
             } else {
                 submitBtn.textContent = 'View Results';
                 setTimeout(() => {
@@ -317,11 +316,11 @@
             finalScoreEl.textContent = `${score} / ${TOTAL_QUESTIONS}`;
             
             let message = '';
-            if (score === 20) {
+            if (score === TOTAL_QUESTIONS) {
                 message = '🌟 Incredible! Perfect score! 🌟';
-            } else if (score >= 15) {
+            } else if (score >= TOTAL_QUESTIONS * 0.75) {
                 message = '👏 Great job! You know your tables well.';
-            } else if (score >= 10) {
+            } else if (score >= TOTAL_QUESTIONS * 0.5) {
                 message = '👍 Good effort! Keep practicing to improve.';
             } else {
                 message = '💪 Keep practicing! You will get the hang of it.';

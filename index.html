@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Support - Portal</title>
+    <title>School Support - Fun Learning Portal!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-color: #f3f4f6;
+            --bg-color: #e0f2fe;
             --card-bg: #ffffff;
-            --text-color: #1f2937;
+            --text-color: #1e293b;
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --accent-yellow: #fde047;
+            --accent-pink: #f43f5e;
+            --accent-blue: #0ea5e9;
+            --accent-green: #10b981;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135sdeg, #bfdbfe 0%, #fbcfe8 100%);
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 2rem 0;
+            padding: 2rem 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -27,24 +33,28 @@
 
         .container {
             background-color: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 520px;
+            max-width: 540px;
             text-align: center;
             box-sizing: border-box;
+            border: 4px solid #ffffff;
         }
 
         h1 {
-            font-size: 1.75rem;
-            margin-bottom: 0.5rem;
+            font-family: 'Comic Neue', cursive, sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 0.25rem;
             color: var(--primary);
+            text-shadow: 2px 2px 0px var(--accent-yellow);
         }
 
         p.subtitle {
-            color: #6b7280;
-            font-size: 0.95rem;
+            color: #64748b;
+            font-size: 1.05rem;
+            font-weight: 700;
             margin-bottom: 2rem;
         }
 
@@ -52,18 +62,32 @@
         .module-grid {
             display: flex;
             flex-direction: column;
-            gap: 0.85rem;
-            max-height: 60vh;
+            gap: 1rem;
+            max-height: 55vh;
             overflow-y: auto;
-            padding-right: 0.25rem;
+            padding-right: 0.5rem;
+        }
+
+        /* Custom scrollbar for fun look */
+        .module-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+        .module-grid::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .module-grid::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
         }
 
         .module-card {
-            border: 2px solid #e5e7eb;
-            border-radius: 0.75rem;
+            background: #fafaf9;
+            border: 3px solid #e2e8f0;
+            border-radius: 1.25rem;
             padding: 1rem 1.25rem;
             text-align: left;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             text-decoration: none;
             display: flex;
             justify-content: space-between;
@@ -71,111 +95,167 @@
         }
 
         .module-card:hover {
+            transform: translateY(-3px) scale(1.01);
             border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.15);
+            background: #ffffff;
+        }
+
+        .module-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .module-icon {
+            font-size: 2rem;
+            background: #f3e8ff;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
         }
 
         .module-info h3 {
             margin: 0 0 0.2rem 0;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--text-color);
+            font-weight: 700;
         }
 
         .module-info p {
             margin: 0;
-            font-size: 0.8rem;
-            color: #6b7280;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
         }
 
         .module-action-btn {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 0.4rem 0.85rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 0.5rem;
+            padding: 0.5rem 1.1rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 0.75rem;
             white-space: nowrap;
+            box-shadow: 0 4px 0 #6d28d9;
+            transition: all 0.1s ease;
+        }
+
+        .module-card:hover .module-action-btn {
+            background-color: #7c3aed;
+        }
+
+        .module-action-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #6d28d9;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>School Support Portal</h1>
-        <p class="subtitle">Select a tool or activity to get started.</p>
+        <h1>🌟 School Support 🌟</h1>
+        <p class="subtitle">Choose an activity to practice and play!</p>
         
         <div class="module-grid">
             <!-- Multiplication Practice -->
             <a href="multiplication_tables.html" class="module-card">
                 <div class="module-info">
-                    <h3>Multiplication Practice</h3>
-                    <p>Tables 2 to 9 • Sets of 10 questions</p>
+                    <div class="module-icon">✖️</div>
+                    <div>
+                        <h3>Multiplication Practice</h3>
+                        <p>Tables 2 to 9 • Sets of 10</p>
+                    </div>
                 </div>
-                <span class="module-action-btn">Open</span>
+                <span class="module-action-btn">Play!</span>
             </a>
 
             <!-- Math Compare -->
             <a href="math-compare.html" class="module-card">
                 <div class="module-info">
-                    <h3>Math Compare</h3>
-                    <p>Compare numbers and values</p>
+                    <div class="module-icon">⚖️</div>
+                    <div>
+                        <h3>Math Compare</h3>
+                        <p>Greater than, less than</p>
+                    </div>
                 </div>
-                <span class="module-action-btn">Open</span>
+                <span class="module-action-btn">Play!</span>
             </a>
 
             <!-- Math Divisibility -->
             <a href="math-divisibility.html" class="module-card">
                 <div class="module-info">
-                    <h3>Divisibility Rules</h3>
-                    <p>Practice division and factors</p>
+                    <div class="module-icon">➗</div>
+                    <div>
+                        <h3>Divisibility Rules</h3>
+                        <p>Practice division & factors</p>
+                    </div>
                 </div>
-                <span class="module-action-btn">Open</span>
+                <span class="module-action-btn">Play!</span>
             </a>
 
             <!-- Math Operations -->
             <a href="math-operations.html" class="module-card">
                 <div class="module-info">
-                    <h3>Math Operations</h3>
-                    <p>Addition, subtraction, and more</p>
+                    <div class="module-icon">➕</div>
+                    <div>
+                        <h3>Math Operations</h3>
+                        <p>Addition & subtraction</p>
+                    </div>
                 </div>
-                <span class="module-action-btn">Open</span>
+                <span class="module-action-btn">Play!</span>
             </a>
 
             <!-- Math Order -->
             <a href="math-order.html" class="module-card">
                 <div class="module-info">
-                    <h3>Order of Operations</h3>
-                    <p>Practice PEMDAS / evaluation rules</p>
+                    <div class="module-icon">🔢</div>
+                    <div>
+                        <h3>Order of Operations</h3>
+                        <p>PEMDAS & evaluation</p>
+                    </div>
                 </div>
-                <span class="module-action-btn">Open</span>
+                <span class="module-action-btn">Play!</span>
             </a>
 
             <!-- Math Roman Numerals -->
             <a href="math-roman.html" class="module-card">
                 <div class="module-info">
-                    <h3>Roman Numerals</h3>
-                    <p>Convert and practice Roman numbers</p>
+                    <div class="module-icon">🏛️</div>
+                    <div>
+                        <h3>Roman Numerals</h3>
+                        <p>Convert ancient numbers</p>
+                    </div>
                 </div>
-                <span class="module-action-btn">Open</span>
+                <span class="module-action-btn">Play!</span>
             </a>
 
             <!-- Math Words -->
             <a href="math-words.html" class="module-card">
                 <div class="module-info">
-                    <h3>Math Word Problems</h3>
-                    <p>Solve scenarios and text problems</p>
+                    <div class="module-icon">📖</div>
+                    <div>
+                        <h3>Math Word Problems</h3>
+                        <p>Solve story puzzles</p>
+                    </div>
                 </div>
-                <span class="module-action-btn">Open</span>
+                <span class="module-action-btn">Play!</span>
             </a>
 
             <!-- Spanish -->
             <a href="spanish.html" class="module-card">
                 <div class="module-info">
-                    <h3>Spanish Practice</h3>
-                    <p>Vocabulary and language practice</p>
+                    <div class="module-icon">🇪🇸</div>
+                    <div>
+                        <h3>Spanish Practice</h3>
+                        <p>Vocabulary and words</p>
+                    </div>
                 </div>
-                <span class="module-action-btn">Open</span>
+                <span class="module-action-btn">Play!</span>
             </a>
         </div>
     </div>

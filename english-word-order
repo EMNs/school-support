@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alphabetical Order Practice</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-hover: #0284c7;
+            --bg-color: #f0f9ff;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --success: #10b981;
+            --error: #ef4444;
+            --accent-yellow: #fde047;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+            border: 3px solid #bae6fd;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 0.25rem;
+            color: var(--primary);
+        }
+
+        p.subtitle {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            font-weight: 600;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            width: 100%;
+            box-shadow: 0 4px 0 #0369a1;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #0369a1;
+        }
+
+        /* Quiz View */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            background-color: #e2e8f0;
+            border-radius: 999px;
+            height: 10px;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: var(--primary);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .instruction-box {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 1rem;
+            background: #f8fafc;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border: 2px dashed #cbd5e1;
+        }
+
+        .word-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .word-card {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 0.75rem;
+            padding: 0.85rem 1rem;
+            font-size: 1.35rem;
+            font-weight: bold;
+            color: #1e293b;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .word-card:hover:not(.selected):not(.disabled) {
+            border-color: var(--primary);
+            background: #f0f9ff;
+            transform: translateY(-2px);
+        }
+
+        .word-card.selected {
+            background: #e0f2fe;
+            border-color: var(--primary);
+            color: #0369a1;
+        }
+
+        .selection-badge {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .feedback {
+            font-weight: 600;
+            font-size: 1rem;
+            height: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+        }
+
+        .feedback.incorrect {
+            color: var(--error);
+        }
+
+        /* Results Screen */
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .result-message {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-12px) scale(1.05); }
+        }
+
+        #whale-celebration {
+            font-size: 4rem;
+            margin: 0.5rem 0;
+            animation: bounce 0.4s ease-in-out infinite alternate;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Start View -->
+        <div id="start-screen">
+            <h1>📋 Alphabetical Order</h1>
+            <p class="subtitle">Put words in alphabetical order (1st, 2nd, and 3rd) based on the second letter!</p>
+            <button class="btn" id="start-btn">Start Practice</button>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quiz-screen" class="hidden">
+            <div class="stats">
+                <span id="question-counter">Set 1 of 12</span>
+                <span id="current-score">Score: 0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <div class="instruction-box">Click the words in order from 1 to 3:</div>
+            
+            <div class="word-list" id="word-list-container">
+                <!-- Dynamically populated words -->
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+            <button class="btn hidden" id="next-btn">Next Set</button>
+        </div>
+
+        <!-- Result View -->
+        <div id="result-screen" class="hidden">
+            <h1>Great Job! 🎉</h1>
+            <div id="whale-celebration" class="hidden">🐳🥳🎉</div>
+            <p class="subtitle">Practice Complete!</p>
+            <div class="score-display" id="final-score">12/12</div>
+            <p class="result-message" id="result-message">You mastered your alphabetical order!</p>
+            <button class="btn" id="restart-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        // All 12 problem sets digitized from the worksheet image
+        const questionSets = [
+            ["bat", "bed", "box"],
+            ["cat", "cup", "cod"],
+            ["dim", "dog", "dot"],
+            ["fun", "fox", "fan"],
+            ["hit", "hat", "hop"],
+            ["mud", "map", "mop"],
+            ["pig", "pet", "pan"],
+            ["rig", "rat", "run"],
+            ["sad", "sit", "sun"],
+            ["ten", "tub", "top"],
+            ["vow", "vet", "van"],
+            ["web", "win", "wax"]
+        ];
+
+        let currentSetIndex = 0;
+        let score = 0;
+        let userSelection = [];
+        let currentShuffledWords = [];
+        let correctOrder = [];
+
+        // DOM Elements
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const whaleCelebration = document.getElementById('whale-celebration');
+        
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const questionCounter = document.getElementById('question-counter');
+        const currentScoreEl = document.getElementById('current-score');
+        const progressFill = document.getElementById('progress-fill');
+        const wordListContainer = document.getElementById('word-list-container');
+        const feedbackEl = document.getElementById('feedback');
+        
+        const finalScoreEl = document.getElementById('final-score');
+        const resultMessageEl = document.getElementById('result-message');
+
+        startBtn.addEventListener('click', startQuiz);
+        restartBtn.addEventListener('click', startQuiz);
+        nextBtn.addEventListener('click', loadNextSet);
+
+        function startQuiz() {
+            currentSetIndex = 0;
+            score = 0;
+            startScreen.classList.add('hidden');
+            resultScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            loadNextSet();
+        }
+
+        function loadNextSet() {
+            if (currentSetIndex >= questionSets.length) {
+                showResults();
+                return;
+            }
+
+            userSelection = [];
+            feedbackEl.textContent = '';
+            feedbackEl.className = 'feedback';
+            nextBtn.classList.add('hidden');
+
+            questionCounter.textContent = `Set ${currentSetIndex + 1} of ${questionSets.length}`;
+            currentScoreEl.textContent = `Score: ${score}`;
+            
+            const progressPercentage = (currentSetIndex / questionSets.length) * 100;
+            progressFill.style.width = `${progressPercentage}%`;
+
+            // Get original words and determine correct alphabetical sorted order
+            const originalWords = questionSets[currentSetIndex];
+            correctOrder = [...originalWords].sort();
+
+            // Shuffle words for display so they aren't already in order
+            currentShuffledWords = [...originalWords].sort(() => Math.random() - 0.5);
+
+            renderWords();
+        }
+
+        function renderWords() {
+            wordListContainer.innerHTML = '';
+            currentShuffledWords.forEach((word, index) => {
+                const card = document.createElement('div');
+                card.className = 'word-card';
+                card.dataset.word = word;
+
+                const wordSpan = document.createElement('span');
+                wordSpan.textContent = word;
+                card.appendChild(wordSpan);
+
+                // Check if already selected by user
+                const selectedIndex = userSelection.indexOf(word);
+                if (selectedIndex !== -1) {
+                    card.classList.add('selected');
+                    const badge = document.createElement('div');
+                    badge.className = 'selection-badge';
+                    badge.textContent = selectedIndex + 1;
+                    card.appendChild(badge);
+                }
+
+                card.addEventListener('click', () => handleWordClick(word, card));
+                wordListContainer.appendChild(card);
+            });
+        }
+
+        function handleWordClick(word, cardElement) {
+            if (userSelection.includes(word) || nextBtn.classList.contains('hidden') === false) return;
+
+            userSelection.push(word);
+            renderWords();
+
+            // When all 3 words have been ordered by the user, check correctness
+            if (userSelection.length === 3) {
+                checkAnswer();
+            }
+        }
+
+        function checkAnswer() {
+            let isCorrect = true;
+            for (let i = 0; i < 3; i++) {
+                if (userSelection[i] !== correctOrder[i]) {
+                    isCorrect = false;
+                    break;
+                }
+            }
+
+            if (isCorrect) {
+                score++;
+                currentScoreEl.textContent = `Score: ${score}`;
+                feedbackEl.textContent = 'Correct! 🎉 Excellent ordering!';
+                feedbackEl.className = 'feedback correct';
+                
+                // Instantly advance after a short joyful delay
+                setTimeout(() => {
+                    currentSetIndex++;
+                    loadNextSet();
+                }, 1200);
+            } else {
+                feedbackEl.textContent = `Not quite! Correct order was: ${correctOrder.join(', ')}`;
+                feedbackEl.className = 'feedback incorrect';
+                nextBtn.classList.remove('hidden'); // Let them click to move forward after reviewing mistake
+                currentSetIndex++;
+            }
+        }
+
+        function showResults() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            
+            finalScoreEl.textContent = `${score} / ${questionSets.length}`;
+            
+            let message = '';
+            if (score === questionSets.length) {
+                message = '🌟 Incredible! Perfect score! 🌟';
+                whaleCelebration.classList.remove('hidden');
+            } else {
+                whaleCelebration.classList.add('hidden');
+                if (score >= questionSets.length * 0.75) {
+                    message = '👏 Great job! You are getting really good at alphabetizing.';
+                } else {
+                    message = '👍 Good effort! Keep practicing your second letters.';
+                }
+            }
+            resultMessageEl.textContent = message;
+        }
+    </script>
+</body>
+</html>
